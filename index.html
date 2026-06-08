@@ -3,58 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sirangua</title>
+    <meta name="description" content="Sirangua turns environmental data into practical insight for gardeners, growers, and researchers.">
+    <title>Sirangua | Environmental intelligence for healthier growing</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header class="header">
-        <img src="Sirangua Logo.PNG" alt="Sirangua Logo" class="logo">
+    <header class="site-header">
+        <a class="brand" href="#top" aria-label="Sirangua home">
+            <img src="Sirangua Logo.PNG" alt="" class="brand-logo">
+            <span>Sirangua</span>
+        </a>
+        <nav class="site-nav" aria-label="Primary navigation">
+            <a href="#features">Features</a>
+            <a href="#why">Why Sirangua</a>
+            <a class="nav-button" href="#contact">Talk to us</a>
+        </nav>
     </header>
 
-    <main>
-        <!-- Hero Section -->
+    <main id="top">
         <section class="hero">
-            <h1>Sirangua helps people understand how light, environment, and place affect living systems.</h1>
-            <p class="hero-subtext">
-                Smart gardening powered by environmental sensing and solar awareness. 
-                Monitor your garden's microclimate and optimize growth through real-time data.
-            </p>
+            <div class="hero-glow" aria-hidden="true"></div>
+            <div class="hero-content">
+                <p class="eyebrow">Environmental insight, made practical</p>
+                <h1>Environmental intelligence for <em>healthier growing.</em></h1>
+                <p class="hero-copy">
+                    Sirangua helps gardeners, growers, and researchers understand how light, soil, and
+                    microclimate affect living systems.
+                </p>
+                <div class="hero-actions">
+                    <a class="button button-primary" href="#features">Explore features <span aria-hidden="true">&rarr;</span></a>
+                    <a class="button button-secondary" href="#contact">Talk to us</a>
+                </div>
+            </div>
+
+            <div class="dashboard" aria-label="Example Sirangua garden overview">
+                <div class="dashboard-header">
+                    <div>
+                        <strong>Garden overview</strong>
+                        <span class="live-status">Live conditions</span>
+                    </div>
+                    <span class="dashboard-period">Today</span>
+                </div>
+                <div class="metrics">
+                    <article class="metric">
+                        <span class="metric-icon sun" aria-hidden="true">&#9788;</span>
+                        <span>Sunlight</span>
+                        <strong>6.4 <small>hrs</small></strong>
+                        <small class="status">Good exposure</small>
+                    </article>
+                    <article class="metric">
+                        <span class="metric-icon" aria-hidden="true">&#9671;</span>
+                        <span>Soil moisture</span>
+                        <strong>32<small>%</small></strong>
+                        <small class="status">Optimal</small>
+                    </article>
+                    <article class="metric">
+                        <span class="metric-icon" aria-hidden="true">&#8451;</span>
+                        <span>Temperature</span>
+                        <strong>24.1<small>&deg;C</small></strong>
+                        <small class="status">Ideal range</small>
+                    </article>
+                    <article class="metric">
+                        <span class="metric-icon" aria-hidden="true">&#9752;</span>
+                        <span>Plant health</span>
+                        <strong>Strong</strong>
+                        <small class="status">Conditions aligned</small>
+                    </article>
+                </div>
+                <div class="dashboard-lower">
+                    <div class="trend-card">
+                        <div class="card-heading">
+                            <strong>Microclimate trend</strong>
+                            <span>7 days</span>
+                        </div>
+                        <div class="chart" aria-hidden="true">
+                            <span class="chart-line chart-line-one"></span>
+                            <span class="chart-line chart-line-two"></span>
+                        </div>
+                        <div class="chart-days" aria-hidden="true">
+                            <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+                        </div>
+                    </div>
+                    <div class="insight-card">
+                        <span class="insight-leaf" aria-hidden="true">&#9752;</span>
+                        <div>
+                            <strong>Plants are thriving.</strong>
+                            <p>Light and moisture levels are supporting healthy growth.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <!-- What Sirangua Is -->
-        <section class="about">
-            <h2>What Sirangua is</h2>
-            <p>
-                Sirangua is an environmental sensing and interpretation platform designed to help gardeners, 
-                farmers, and researchers understand the complex relationships between plants, light, soil, 
-                and weather. By combining sensor data with solar modeling and spatial analysis, Sirangua 
-                provides insights into how environmental factors influence plant growth and health.
-            </p>
+        <section class="section features-section" id="features">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Features</p>
+                    <h2>Tools for better growing decisions.</h2>
+                </div>
+                <p>Bring environmental sensing, solar awareness, and clear interpretation together in one approachable system.</p>
+            </div>
+
+            <div class="feature-grid">
+                <article class="feature-card feature-card-wide">
+                    <span class="feature-icon icon-sun" aria-hidden="true">&#9788;</span>
+                    <div>
+                        <h3>Light Mapping</h3>
+                        <p>Understand sunlight patterns and exposure across your space and through the seasons.</p>
+                    </div>
+                    <span class="card-arrow" aria-hidden="true">&rarr;</span>
+                </article>
+                <article class="feature-card">
+                    <span class="feature-icon" aria-hidden="true">&#9671;</span>
+                    <div>
+                        <h3>Microclimate Monitoring</h3>
+                        <p>Track soil moisture, temperature, humidity, and local conditions in real time.</p>
+                    </div>
+                    <span class="card-arrow" aria-hidden="true">&rarr;</span>
+                </article>
+                <article class="feature-card">
+                    <span class="feature-icon" aria-hidden="true">&#9752;</span>
+                    <div>
+                        <h3>Plant Insights</h3>
+                        <p>Get science-backed guidance tailored to your plants and growing conditions.</p>
+                    </div>
+                    <span class="card-arrow" aria-hidden="true">&rarr;</span>
+                </article>
+                <article class="feature-card">
+                    <span class="feature-icon" aria-hidden="true">&#8599;</span>
+                    <div>
+                        <h3>Environmental Interpretation</h3>
+                        <p>Turn complex data into clear insight about what is happening in your garden.</p>
+                    </div>
+                    <span class="card-arrow" aria-hidden="true">&rarr;</span>
+                </article>
+                <article class="feature-card">
+                    <span class="feature-icon" aria-hidden="true">&#9678;</span>
+                    <div>
+                        <h3>Site Planning</h3>
+                        <p>Use environmental insight to plan layouts, planting zones, and improvements.</p>
+                    </div>
+                    <span class="card-arrow" aria-hidden="true">&rarr;</span>
+                </article>
+            </div>
         </section>
 
-        <!-- What's Being Built -->
-        <section class="building">
-            <h2>What's being built</h2>
-            <ul class="features-list">
-                <li>Sensor-based environmental monitoring</li>
-                <li>Solar and light modeling by location and orientation</li>
-                <li>Tools for understanding plant&ndash;environment interactions</li>
-            </ul>
+        <section class="section why-section" id="why">
+            <div class="why-intro">
+                <p class="eyebrow">Why Sirangua</p>
+                <h2>Understand your environment. Grow with confidence.</h2>
+                <p>
+                    Plants respond to their environment in complex ways. Sirangua brings together thoughtful
+                    sensing and intuitive analysis so you can see what matters and act with confidence.
+                </p>
+            </div>
+            <div class="benefit-grid">
+                <article>
+                    <span class="benefit-number">01</span>
+                    <h3>Data you can trust</h3>
+                    <p>Purposeful sensing gives you a clearer view of the conditions shaping your space.</p>
+                </article>
+                <article>
+                    <span class="benefit-number">02</span>
+                    <h3>Actionable insights</h3>
+                    <p>Clear interpretation helps turn environmental patterns into informed next steps.</p>
+                </article>
+                <article>
+                    <span class="benefit-number">03</span>
+                    <h3>Sustainable impact</h3>
+                    <p>Make more considered decisions about water, placement, timing, and plant health.</p>
+                </article>
+            </div>
         </section>
 
-        <!-- Contact Section -->
-        <section class="contact">
-            <h2>Contact</h2>
-            <p>
-                <a class="contact-button" href="mailto:hello@sirangua.com">hello@sirangua.com</a>
-            </p>
+        <section class="section contact-section" id="contact">
+            <div class="contact-intro">
+                <p class="eyebrow">Let's work together</p>
+                <h2>Bring environmental intelligence to <em>your space.</em></h2>
+                <p>
+                    Whether you are a gardener, grower, researcher, or organization, we would love to hear
+                    about your project and explore how Sirangua can help.
+                </p>
+                <a class="contact-email" href="mailto:hello@sirangua.com">hello@sirangua.com <span aria-hidden="true">&rarr;</span></a>
+            </div>
+
+            <form class="contact-form" action="mailto:hello@sirangua.com" method="post" enctype="text/plain">
+                <div class="form-heading">
+                    <h3>Get in touch</h3>
+                    <p>Tell us a little about your project.</p>
+                </div>
+                <div class="form-row">
+                    <label>
+                        Full name
+                        <input type="text" name="name" placeholder="Your name" required>
+                    </label>
+                    <label>
+                        Email address
+                        <input type="email" name="email" placeholder="you@example.com" required>
+                    </label>
+                </div>
+                <label>
+                    Organization <span>(optional)</span>
+                    <input type="text" name="organization" placeholder="Your organization or institution">
+                </label>
+                <label>
+                    Tell us about your project
+                    <textarea name="project" rows="5" placeholder="Describe your goals, challenges, and how we can help..." required></textarea>
+                </label>
+                <button class="button button-primary form-button" type="submit">Start a conversation <span aria-hidden="true">&rarr;</span></button>
+            </form>
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; Sirangua</p>
-        <p>Built in California</p>
+    <footer class="site-footer">
+        <a class="brand footer-brand" href="#top">
+            <img src="Sirangua Logo.PNG" alt="" class="brand-logo">
+            <span>Sirangua</span>
+        </a>
+        <p>Environmental insight for living systems.</p>
+        <p>&copy; 2026 Sirangua. Built in California.</p>
     </footer>
 </body>
 </html>
