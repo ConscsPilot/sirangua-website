@@ -97,20 +97,19 @@ a:hover {
 .features-list {
     list-style: none;
     padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
 }
 
 .features-list li {
-    padding: 12px 0;
-    padding-left: 24px;
-    position: relative;
+    padding: 22px;
     color: #555;
-}
-
-.features-list li:before {
-    content: "•";
-    position: absolute;
-    left: 0;
-    color: #999;
+    line-height: 1.5;
+    background-color: #fff;
+    border: 1px solid #e6e6df;
+    border-top: 3px solid #2f855a;
+    border-radius: 8px;
 }
 
 /* Contact Section */
@@ -120,6 +119,29 @@ a:hover {
 
 .contact p {
     margin: 16px 0;
+}
+
+.contact-button {
+    display: inline-block;
+    padding: 11px 18px;
+    color: #fff;
+    font-weight: 600;
+    line-height: 1.4;
+    background-color: #2f855a;
+    border-radius: 6px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.contact-button:hover {
+    color: #fff;
+    text-decoration: none;
+    background-color: #276749;
+    transform: translateY(-1px);
+}
+
+.contact-button:focus-visible {
+    outline: 3px solid rgba(47, 133, 90, 0.3);
+    outline-offset: 3px;
 }
 
 /* Footer */
@@ -161,5 +183,9 @@ footer p {
 
     section {
         margin-bottom: 60px;
+    }
+
+    .features-list {
+        grid-template-columns: 1fr;
     }
 }
