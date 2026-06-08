@@ -6,6 +6,7 @@
     <meta name="description" content="Sirangua turns environmental data into practical insight for gardeners, growers, and researchers.">
     <title>Sirangua | Environmental intelligence for healthier growing</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
     <header class="site-header">
@@ -40,55 +41,79 @@
                 <div class="dashboard-header">
                     <div>
                         <strong>Garden overview</strong>
-                        <span class="live-status">Live conditions</span>
+                        <span class="live-status">Sanitized field-data preview.</span>
                     </div>
-                    <span class="dashboard-period">Today</span>
+                    <span class="dashboard-period" id="dashboard-updated">Updated Jun 8</span>
                 </div>
                 <div class="metrics">
                     <article class="metric">
-                        <span class="metric-icon sun" aria-hidden="true">&#9788;</span>
-                        <span>Sunlight</span>
-                        <strong>6.4 <small>hrs</small></strong>
-                        <small class="status">Good exposure</small>
+                        <span class="metric-icon" aria-hidden="true">&#8451;</span>
+                        <span>Temperature</span>
+                        <strong><span id="temperature-value">19.4</span><small>&deg;C</small></strong>
+                        <small class="status">Current reading</small>
+                    </article>
+                    <article class="metric">
+                        <span class="metric-icon" aria-hidden="true">&#9671;</span>
+                        <span>Humidity</span>
+                        <strong><span id="humidity-value">50.0</span><small>%</small></strong>
+                        <small class="status">Current reading</small>
                     </article>
                     <article class="metric">
                         <span class="metric-icon" aria-hidden="true">&#9671;</span>
                         <span>Soil moisture</span>
-                        <strong>32<small>%</small></strong>
-                        <small class="status">Optimal</small>
-                    </article>
-                    <article class="metric">
-                        <span class="metric-icon" aria-hidden="true">&#8451;</span>
-                        <span>Temperature</span>
-                        <strong>24.1<small>&deg;C</small></strong>
-                        <small class="status">Ideal range</small>
+                        <strong><span id="soil-moisture-value">67.5</span><small>%</small></strong>
+                        <small class="status">Current reading</small>
                     </article>
                     <article class="metric">
                         <span class="metric-icon" aria-hidden="true">&#9752;</span>
-                        <span>Plant health</span>
-                        <strong>Strong</strong>
-                        <small class="status">Conditions aligned</small>
+                        <span>Plant status</span>
+                        <strong id="plant-status-value">Monitoring</strong>
+                        <small class="status">Field assessment</small>
                     </article>
                 </div>
                 <div class="dashboard-lower">
                     <div class="trend-card">
                         <div class="card-heading">
-                            <strong>Microclimate trend</strong>
-                            <span>7 days</span>
+                            <strong>Recent field trend</strong>
+                            <span id="trend-range">May 9&ndash;Jun 8</span>
                         </div>
-                        <div class="chart" aria-hidden="true">
-                            <span class="chart-line chart-line-one"></span>
-                            <span class="chart-line chart-line-two"></span>
+                        <div class="chart">
+                            <svg id="trend-chart" viewBox="0 0 600 150" role="img" aria-labelledby="trend-chart-title trend-chart-description">
+                                <title id="trend-chart-title">Recent field trend</title>
+                                <desc id="trend-chart-description">Normalized temperature, humidity, and soil moisture readings over recent field-data dates.</desc>
+                                <g class="chart-grid" aria-hidden="true">
+                                    <line x1="38" y1="10" x2="600" y2="10"></line>
+                                    <line x1="38" y1="40" x2="600" y2="40"></line>
+                                    <line x1="38" y1="70" x2="600" y2="70"></line>
+                                    <line x1="38" y1="100" x2="600" y2="100"></line>
+                                    <line x1="38" y1="130" x2="600" y2="130"></line>
+                                </g>
+                                <g class="chart-axis-labels" aria-hidden="true">
+                                    <text x="29" y="14">100</text>
+                                    <text x="29" y="44">75</text>
+                                    <text x="29" y="74">50</text>
+                                    <text x="29" y="104">25</text>
+                                    <text x="29" y="134">0</text>
+                                </g>
+                                <g id="trend-series" aria-hidden="true"></g>
+                            </svg>
                         </div>
-                        <div class="chart-days" aria-hidden="true">
-                            <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+                        <div class="chart-footer">
+                            <span id="trend-start">May 9</span>
+                            <div class="chart-legend" aria-label="Chart legend">
+                                <span class="legend-temperature">Temperature</span>
+                                <span class="legend-humidity">Humidity</span>
+                                <span class="legend-moisture">Soil moisture</span>
+                            </div>
+                            <span id="trend-end">Jun 8</span>
                         </div>
+                        <p class="chart-helper">Values are scaled 0&ndash;100 within each metric&rsquo;s observed range.</p>
                     </div>
                     <div class="insight-card">
                         <span class="insight-leaf" aria-hidden="true">&#9752;</span>
                         <div>
-                            <strong>Plants are thriving.</strong>
-                            <p>Light and moisture levels are supporting healthy growth.</p>
+                            <strong id="insight-heading">Field context</strong>
+                            <p id="insight-copy">Recent sanitized readings provide practical growing context.</p>
                         </div>
                     </div>
                 </div>

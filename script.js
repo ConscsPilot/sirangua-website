@@ -1,104 +1,178 @@
-/* ============================================
-   SIRANGUA WEBSITE - INTERACTIVE SCRIPTS
-   ============================================ */
+const DATA_URL = "garden-preview-30days.json";
+const SVG_NS = "http://www.w3.org/2000/svg";
 
-// Smooth scroll navigation
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
-});
-
-// Contact form handling
-document.getElementById('contactForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const form = this;
-    const formData = new FormData(form);
-    
-    // Simple validation
-    const name = form.children[0].value.trim();
-    const email = form.children[1].value.trim();
-    const message = form.children[2].value.trim();
-    
-    if (name && email && message) {
-        // Here you would typically send the data to a backend service
-        console.log('Form submitted:', { name, email, message });
-        
-        // User feedback
-        const submitButton = form.querySelector('.submit-button');
-        const originalText = submitButton.textContent;
-        submitButton.textContent = 'Message Sent! ✓';
-        submitButton.style.backgroundColor = '#7cb342';
-        
-        // Reset form
-        form.reset();
-        
-        // Restore button after 3 seconds
-        setTimeout(() => {
-            submitButton.textContent = originalText;
-            submitButton.style.backgroundColor = '';
-        }, 3000);
-    }
-});
-
-// Navbar scroll effect
-let lastScrollTop = 0;
-const navbar = document.querySelector('.navbar');
-
-window.addEventListener('scroll', function() {
-    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    
-    if (scrollTop > 50) {
-        navbar.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
-    } else {
-        navbar.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
-    }
-    
-    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // For Mobile or negative scrolling
-});
-
-// Intersection Observer for fade-in animations
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
+const dashboardElements = {
+    temperature: document.getElementById("temperature-value"),
+    humidity: document.getElementById("humidity-value"),
+    soilMoisture: document.getElementById("soil-moisture-value"),
+    plantStatus: document.getElementById("plant-status-value"),
+    updated: document.getElementById("dashboard-updated"),
+    trendRange: document.getElementById("trend-range"),
+    trendStart: document.getElementById("trend-start"),
+    trendEnd: document.getElementById("trend-end"),
+    trendSeries: document.getElementById("trend-series"),
+    insightCopy: document.getElementById("insight-copy")
 };
 
-const observer = new IntersectionObserver(function(entries) {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
+function isFiniteNumber(value) {
+    return typeof value === "number" && Number.isFinite(value);
+}
+
+function formatReading(value) {
+    return isFiniteNumber(value) ? value.toFixed(1) : "--";
+}
+
+function formatDate(value, includeTime = false) {
+    const normalizedValue = /^\d{4}-\d{2}-\d{2}$/.test(value)
+        ? `${value}T00:00:00`
+        : value.replace(" ", "T");
+    const date = new Date(normalizedValue);
+
+    if (Number.isNaN(date.getTime())) {
+        return "";
+    }
+
+    const options = {
+        month: "short",
+        day: "numeric"
+    };
+
+    if (includeTime) {
+        options.hour = "numeric";
+    }
+
+    return new Intl.DateTimeFormat("en-US", options).format(date);
+}
+
+function getSafeTrend(trend) {
+    if (!Array.isArray(trend)) {
+        return [];
+    }
+
+    return trend
+        .filter((point) => typeof point.day === "string")
+        .map((point) => ({
+            day: point.day,
+            temperature: isFiniteNumber(point.avg_temperature_c) ? point.avg_temperature_c : null,
+            humidity: isFiniteNumber(point.avg_humidity_pct) ? point.avg_humidity_pct : null,
+            soilMoisture: isFiniteNumber(point.avg_soil_moisture_pct) ? point.avg_soil_moisture_pct : null
+        }));
+}
+
+function createTrendLines(points, valueKey, className, startTime, timeRange) {
+    const plotLeft = 38;
+    const plotWidth = 562;
+    const plotTop = 10;
+    const plotHeight = 120;
+    const values = points
+        .map((point) => point[valueKey])
+        .filter(isFiniteNumber);
+
+    if (values.length < 2) {
+        return [];
+    }
+
+    const minimum = Math.min(...values);
+    const maximum = Math.max(...values);
+    const valueRange = maximum - minimum || 1;
+    const segments = [];
+    let currentSegment = [];
+    let previousTime = null;
+
+    points.forEach((point) => {
+        const pointTime = new Date(`${point.day}T00:00:00`).getTime();
+        const value = point[valueKey];
+        const followsGap = previousTime !== null && pointTime - previousTime > 86400000;
+
+        if (!isFiniteNumber(value) || followsGap) {
+            if (currentSegment.length > 1) {
+                segments.push(currentSegment);
+            }
+            currentSegment = [];
         }
+
+        if (!isFiniteNumber(value)) {
+            previousTime = pointTime;
+            return;
+        }
+
+        const normalizedValue = (point[valueKey] - minimum) / valueRange;
+        const x = plotLeft + (((pointTime - startTime) / timeRange) * plotWidth);
+        const y = plotTop + ((1 - normalizedValue) * plotHeight);
+        currentSegment.push(`${x.toFixed(1)},${y.toFixed(1)}`);
+        previousTime = pointTime;
     });
-}, observerOptions);
 
-// Observe feature cards
-document.querySelectorAll('.feature-card').forEach(card => {
-    card.style.opacity = '0';
-    card.style.transform = 'translateY(20px)';
-    card.style.transition = 'all 0.6s ease';
-    observer.observe(card);
-});
+    if (currentSegment.length > 1) {
+        segments.push(currentSegment);
+    }
 
-// Observe tech items
-document.querySelectorAll('.tech-item').forEach(item => {
-    item.style.opacity = '0';
-    item.style.transform = 'translateY(20px)';
-    item.style.transition = 'all 0.6s ease';
-    observer.observe(item);
-});
+    return segments.map((coordinates) => {
+        const polyline = document.createElementNS(SVG_NS, "polyline");
+        polyline.setAttribute("points", coordinates.join(" "));
+        polyline.setAttribute("class", `trend-line ${className}`);
+        return polyline;
+    });
+}
 
-// CTA Button click handler
-document.querySelector('.cta-button').addEventListener('click', function() {
-    document.getElementById('features').scrollIntoView({ behavior: 'smooth' });
-});
+function drawTrend(points) {
+    if (points.length < 2 || !dashboardElements.trendSeries) {
+        return;
+    }
 
-console.log('Sirangua Website Loaded Successfully');
+    const startTime = new Date(`${points[0].day}T00:00:00`).getTime();
+    const endTime = new Date(`${points[points.length - 1].day}T00:00:00`).getTime();
+    const timeRange = endTime - startTime || 1;
+
+    const trendLines = [
+        ...createTrendLines(points, "temperature", "trend-temperature", startTime, timeRange),
+        ...createTrendLines(points, "humidity", "trend-humidity", startTime, timeRange),
+        ...createTrendLines(points, "soilMoisture", "trend-moisture", startTime, timeRange)
+    ];
+
+    dashboardElements.trendSeries.replaceChildren(...trendLines);
+
+    const startLabel = formatDate(points[0].day);
+    const endLabel = formatDate(points[points.length - 1].day);
+    dashboardElements.trendStart.textContent = startLabel;
+    dashboardElements.trendEnd.textContent = endLabel;
+    dashboardElements.trendRange.textContent = `${startLabel}–${endLabel}`;
+}
+
+function updateDashboard(data) {
+    const current = data && typeof data.current === "object" ? data.current : {};
+    const trend = getSafeTrend(data?.trend_30_days);
+
+    dashboardElements.temperature.textContent = formatReading(current.temperature_c);
+    dashboardElements.humidity.textContent = formatReading(current.humidity_pct);
+    dashboardElements.soilMoisture.textContent = formatReading(current.soil_moisture_pct);
+
+    if (typeof current.plant_status === "string" && current.plant_status.length <= 40) {
+        dashboardElements.plantStatus.textContent = current.plant_status;
+    }
+
+    if (typeof data.updated_hour === "string") {
+        const updatedLabel = formatDate(data.updated_hour, true);
+        if (updatedLabel) {
+            dashboardElements.updated.textContent = `Updated ${updatedLabel}`;
+        }
+    }
+
+    if (typeof data.insight === "string" && data.insight.length <= 320) {
+        dashboardElements.insightCopy.textContent = data.insight;
+    }
+
+    drawTrend(trend);
+}
+
+fetch(DATA_URL)
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error("Dashboard data could not be loaded.");
+        }
+        return response.json();
+    })
+    .then(updateDashboard)
+    .catch(() => {
+        // The HTML contains sanitized fallback values for local or offline viewing.
+    });

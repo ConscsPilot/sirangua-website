@@ -326,8 +326,8 @@ h1 em,
 }
 
 .dashboard-lower {
-    display: none;
-    grid-template-columns: 1.65fr 0.8fr;
+    display: grid;
+    grid-template-columns: 1fr;
     gap: 10px;
     margin-top: 10px;
 }
@@ -348,36 +348,89 @@ h1 em,
 .chart {
     position: relative;
     overflow: hidden;
-    height: 74px;
+    height: 116px;
     margin-top: 12px;
-    background: repeating-linear-gradient(to bottom, transparent 0 23px, #e9eee8 24px);
 }
 
-.chart-line {
-    position: absolute;
-    left: 0;
-    width: 110%;
-    height: 35px;
-    border-top: 3px solid #d69c2b;
-    border-radius: 50%;
-    transform: rotate(-3deg);
+.chart svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
 }
 
-.chart-line-one {
-    top: 25px;
+.chart-grid line {
+    stroke: #e4ebe4;
+    stroke-width: 1;
 }
 
-.chart-line-two {
-    top: 42px;
-    border-color: #4384a7;
-    transform: rotate(4deg);
+.chart-axis-labels {
+    fill: #8a958d;
+    font-size: 10px;
+    text-anchor: end;
 }
 
-.chart-days {
+.trend-line {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 3;
+}
+
+.trend-temperature {
+    stroke: #d69c2b;
+}
+
+.trend-humidity {
+    stroke: #4384a7;
+}
+
+.trend-moisture {
+    stroke: var(--green);
+}
+
+.chart-footer {
     display: flex;
+    align-items: center;
     justify-content: space-between;
+    gap: 8px;
     color: #89928c;
     font-size: 0.58rem;
+}
+
+.chart-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px 10px;
+}
+
+.chart-legend span::before {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    margin-right: 4px;
+    border-radius: 50%;
+    content: "";
+}
+
+.legend-temperature::before {
+    background: #d69c2b;
+}
+
+.legend-humidity::before {
+    background: #4384a7;
+}
+
+.legend-moisture::before {
+    background: var(--green);
+}
+
+.chart-helper {
+    margin-top: 7px;
+    color: #89928c;
+    font-size: 0.61rem;
+    text-align: center;
 }
 
 .insight-card {
@@ -650,7 +703,7 @@ h1 em,
     }
 
     .dashboard-lower {
-        display: grid;
+        grid-template-columns: 1.65fr 0.8fr;
     }
 
     .section {
